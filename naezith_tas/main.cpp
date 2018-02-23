@@ -2,7 +2,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
 #include <windows.h>
 
 #include "winmemory.h"
@@ -50,13 +49,10 @@ int main()
 	while (true)
 	{
 		std::string str = readFile("inputs.txt");
-		std::vector<unsigned char> temp;
-		for (char c : str)
-		{
-			temp.push_back(c);
-		}
-		temp.resize(MAX_SIZE);
-		//memory.writeBytes((uint32_t)alloc, temp);
+		uint8_t *temp = new uint8_t[str.size() + 1];
+		strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
+
+		memory.writeBytes((uint32_t)alloc, temp, str.size());
 		memory.writeUint32(pointer, (uint32_t)alloc);
 		memory.writeUint32(pointer2, (uint32_t)alloc + MAX_SIZE);
 		Sleep(500);
