@@ -1,0 +1,3 @@
+[submodule "naezith_tas/WindowsMemory"]
+	path = naezith_tas/WindowsMemory
+	url = git://github.com/negative-seven/WindowsMemory
