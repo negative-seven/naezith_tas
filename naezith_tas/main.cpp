@@ -52,7 +52,7 @@ void run()
 		uint8_t *temp = new uint8_t[str.size() + 1];
 		strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
-		memory.writeBytes((uint32_t)alloc, temp, str.size());
+		memory.writeBytes((uint32_t)alloc, temp, str.size() + 1);
 		memory.writeUint32(pointer, (uint32_t)alloc);
 		memory.writeUint32(pointer2, (uint32_t)alloc + MAX_SIZE);
 		Sleep(500);
