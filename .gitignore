@@ -7,3 +7,5 @@ Release/
 *.opendb
 *.tlog
 *.vcxproj.user
+
+naezith_tas/inputs.txt
