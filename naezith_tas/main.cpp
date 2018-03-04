@@ -20,7 +20,7 @@ std::string readFile(std::string filepath)
 	return buffer.str();
 }
 
-int main()
+void run()
 {
 	WindowsMemory::MemoryHandler memory = WindowsMemory::MemoryHandler(FindWindow(NULL, "Remnants of Naezith"));
 
@@ -56,6 +56,53 @@ int main()
 		memory.writeUint32(pointer, (uint32_t)alloc);
 		memory.writeUint32(pointer2, (uint32_t)alloc + MAX_SIZE);
 		Sleep(500);
+	}
+}
+
+void runNoAlloc()
+{
+	WindowsMemory::MemoryHandler memory = WindowsMemory::MemoryHandler(FindWindow(NULL, "Remnants of Naezith"));
+
+	uint32_t pointer;
+	try
+	{
+		pointer = memory.getBaseAddress("naezith.exe") + 0x1EC468;
+	}
+	catch (std::runtime_error e)
+	{
+		std::cout << GetLastError() << '\n';
+		while (true);
+	}
+
+	while (true)
+	{
+		std::string str = readFile("inputs.txt");
+		uint8_t *temp = new uint8_t[str.size() + 1];
+		strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
+
+		memory.writeBytes(memory.readUint32(pointer), temp, str.size() + 1);
+	}
+}
+
+int main(int argc, char *argv[])
+{
+	bool alloc = true;
+
+	for (int i = 1; i < argc; i++)
+	{
+		if (strcmp(argv[i], "--noalloc") == 0)
+		{
+			alloc = false;
+		}
+	}
+
+	if (alloc)
+	{
+		run();
+	}
+	else
+	{
+		runNoAlloc();
 	}
 
 	return 0;
