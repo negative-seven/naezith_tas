@@ -35,8 +35,8 @@ void run()
 
 	{
 		uint8_t bytes[] = "\x48\xBA\x00\x00\x00\x00\x00\x00\x00\x00\x4C\x8D\x82\x00\x00\x00\x00\xC3";
-		uint64_t addr = (uint32_t)alloc + 0x100;
-		uint32_t addr2 = MAX_SIZE - 0x100;
+		uint64_t addr = (uint32_t)alloc;
+		uint32_t addr2 = MAX_SIZE;
 		memcpy(bytes + 0x2, &addr, sizeof(addr));
 		memcpy(bytes + 0xD, &addr2, sizeof(addr2));
 		memory.writeBytes((uint32_t)alloc, bytes, 18);
