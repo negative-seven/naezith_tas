@@ -33,17 +33,20 @@ void run()
 
 	std::cout << "Allocated " << MAX_SIZE << " bytes of memory at 0x" << std::hex << (uint32_t)alloc << std::dec << '\n';
 
-	uint32_t pointer;
-	uint32_t pointer2;
-	try
 	{
-		pointer = memory.getBaseAddress("naezith.exe") + 0x1EC468;
-		pointer2 = memory.getBaseAddress("naezith.exe") + 0x1EC470;
+		uint8_t bytes[] = "\x48\xBA\x00\x00\x00\x00\x00\x00\x00\x00\x4C\x8D\x82\x00\x00\x00\x00\xC3";
+		uint64_t addr = (uint32_t)alloc + 0x100;
+		uint32_t addr2 = MAX_SIZE - 0x100;
+		memcpy(bytes + 0x2, &addr, sizeof(addr));
+		memcpy(bytes + 0xD, &addr2, sizeof(addr2));
+		memory.writeBytes((uint32_t)alloc, bytes, 18);
 	}
-	catch (std::runtime_error e)
+
 	{
-		std::cout << GetLastError() << '\n';
-		while (true);
+		uint8_t bytes[] = "\xE8\x00\x00\x00\x00\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
+		uint32_t addr = (uint32_t)alloc - (memory.getBaseAddress("naezith.exe") + 0xE92C4);
+		memcpy(bytes + 0x1, &addr, sizeof(addr));
+		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92BF, bytes, 17);
 	}
 
 	while (true)
@@ -52,9 +55,15 @@ void run()
 		uint8_t *temp = new uint8_t[str.size() + 1];
 		strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
-		memory.writeBytes((uint32_t)alloc, temp, str.size() + 1);
-		memory.writeUint32(pointer, (uint32_t)alloc);
-		memory.writeUint32(pointer2, (uint32_t)alloc + MAX_SIZE);
+		uint32_t replayStringStartPtr = memory.readUint32(memory.getBaseAddress("naezith.exe") + 0x1EC468);
+		uint32_t replayStringEndPtr = memory.readUint32(memory.getBaseAddress("naezith.exe") + 0x1EC470);;
+
+		unsigned int size = min(replayStringEndPtr - replayStringStartPtr, str.size() + 1);
+		if (size > 0)
+		{
+			memory.writeBytes(replayStringStartPtr, temp, size);
+		}
+
 		Sleep(500);
 	}
 }
@@ -63,15 +72,9 @@ void runNoAlloc()
 {
 	WindowsMemory::MemoryHandler memory = WindowsMemory::MemoryHandler(FindWindow(NULL, "Remnants of Naezith"));
 
-	uint32_t pointer;
-	try
 	{
-		pointer = memory.getBaseAddress("naezith.exe") + 0x1EC468;
-	}
-	catch (std::runtime_error e)
-	{
-		std::cout << GetLastError() << '\n';
-		while (true);
+		uint8_t bytes[] = "\x4C\x8D\x82\x00\x10\x00\x00\x90\x90\x90";
+		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92C6, bytes, 10);
 	}
 
 	while (true)
@@ -80,7 +83,16 @@ void runNoAlloc()
 		uint8_t *temp = new uint8_t[str.size() + 1];
 		strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
-		memory.writeBytes(memory.readUint32(pointer), temp, str.size() + 1);
+		uint32_t replayStringStartPtr = memory.readUint32(memory.getBaseAddress("naezith.exe") + 0x1EC468);
+		uint32_t replayStringEndPtr = memory.readUint32(memory.getBaseAddress("naezith.exe") + 0x1EC470);;
+
+		unsigned int size = min(replayStringEndPtr - replayStringStartPtr, str.size() + 1);
+		if (size > 0)
+		{
+			memory.writeBytes(replayStringStartPtr, temp, size);
+		}
+
+		Sleep(500);
 	}
 }
 
