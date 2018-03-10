@@ -34,7 +34,11 @@ void run()
 	std::cout << "Allocated " << MAX_SIZE << " bytes of memory at 0x" << std::hex << (uint32_t)alloc << std::dec << '\n';
 
 	{
-		uint8_t bytes[] = "\x48\xBA\x00\x00\x00\x00\x00\x00\x00\x00\x4C\x8D\x82\x00\x00\x00\x00\xC3";
+		uint8_t bytes[] = {
+			'\x48', '\xBA', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00',	// mov rdx, [alloc]
+			'\x4C', '\x8D', '\x82', '\x00', '\x00', '\x00', '\x00',							// lea r8, [rdx+MAX_SIZE]
+			'\xC3'																			// ret
+		};
 		uint64_t addr = (uint32_t)alloc;
 		uint32_t addr2 = MAX_SIZE;
 		memcpy(bytes + 0x2, &addr, sizeof(addr));
@@ -43,7 +47,21 @@ void run()
 	}
 
 	{
-		uint8_t bytes[] = "\xE8\x00\x00\x00\x00\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90";
+		uint8_t bytes[] = {
+			'\xE8', '\x00', '\x00', '\x00', '\x00',	// call alloc
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90',									// nop
+			'\x90'									// nop
+		};
 		uint32_t addr = (uint32_t)alloc - (memory.getBaseAddress("naezith.exe") + 0xE92C4);
 		memcpy(bytes + 0x1, &addr, sizeof(addr));
 		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92BF, bytes, 17);
