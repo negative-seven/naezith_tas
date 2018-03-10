@@ -115,10 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gamemanager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="WindowsMemory\src\winmemory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="gamemanager.h" />
+    <ClInclude Include="utils.h" />
     <ClInclude Include="WindowsMemory\src\winmemory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
