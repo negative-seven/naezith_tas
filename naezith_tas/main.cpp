@@ -43,7 +43,8 @@ void run()
 		uint32_t addr2 = MAX_SIZE;
 		memcpy(bytes + 0x2, &addr, sizeof(addr));
 		memcpy(bytes + 0xD, &addr2, sizeof(addr2));
-		memory.writeBytes((uint32_t)alloc, bytes, 18);
+
+		memory.writeBytes((uint32_t)alloc, bytes, sizeof(bytes));
 	}
 
 	{
@@ -64,7 +65,8 @@ void run()
 		};
 		uint32_t addr = (uint32_t)alloc - (memory.getBaseAddress("naezith.exe") + 0xE92C4);
 		memcpy(bytes + 0x1, &addr, sizeof(addr));
-		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92BF, bytes, 17);
+
+		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92BF, bytes, sizeof(bytes));
 	}
 
 	while (true)
@@ -91,8 +93,16 @@ void runNoAlloc()
 	WindowsMemory::MemoryHandler memory = WindowsMemory::MemoryHandler(FindWindow(NULL, "Remnants of Naezith"));
 
 	{
-		uint8_t bytes[] = "\x4C\x8D\x82\x00\x10\x00\x00\x90\x90\x90";
-		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92C6, bytes, 10);
+		uint8_t bytes[] = {
+			'\x4C', '\x8D', '\x82', '\x00', '\x00', '\x00', '\x00',	// lea r8, [rdx+MAX_SIZE]
+			'\x90',													// nop
+			'\x90',													// nop
+			'\x90'													// nop
+		};
+		uint32_t addr = MAX_SIZE;
+		memcpy(bytes + 0x3, &addr, sizeof(addr));
+
+		memory.writeBytes(memory.getBaseAddress("naezith.exe") + 0xE92C6, bytes, sizeof(bytes));
 	}
 
 	while (true)
