@@ -1,3 +1,5 @@
+#include <io.h>
+
 #include "gamemanager.h"
 
 int main(int argc, char *argv[])
@@ -10,12 +12,12 @@ int main(int argc, char *argv[])
 
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "--no-alloc") == 0)
+		if (strcmp(argv[i], "-n") == 0 || strcmp(argv[i], "--no-alloc") == 0)
 		{
 			alloc = false;
 		}
 
-		if (strcmp(argv[i], "--replay-file") == 0)
+		if (strcmp(argv[i], "-f") == 0 || strcmp(argv[i], "--replay-file") == 0)
 		{
 			if (i < argc - 1)
 			{
@@ -23,7 +25,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (strcmp(argv[i], "--replay-size") == 0)
+		if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--replay-size") == 0)
 		{
 			if (i < argc - 1)
 			{
