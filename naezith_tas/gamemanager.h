@@ -10,6 +10,8 @@ class GameManager
 {
 public:
 	bool alloc;
+	const char *replayFile;
+	uint32_t replaySize;
 private:
 	static const char *windowName;
 

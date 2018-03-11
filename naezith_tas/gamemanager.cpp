@@ -1,7 +1,5 @@
 #include "gamemanager.h"
 
-#define MAX_SIZE 0x1000
-
 const char *GameManager::windowName = "Remnants of Naezith";
 
 GameManager::GameManager()
@@ -36,9 +34,9 @@ void GameManager::injectCode()
 	GetWindowThreadProcessId(hWindow, &pId);
 	HANDLE pHandle = OpenProcess(PROCESS_ALL_ACCESS, false, pId);
 
-	LPVOID alloc = VirtualAllocEx(pHandle, NULL, MAX_SIZE, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	LPVOID alloc = VirtualAllocEx(pHandle, NULL, replaySize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
-	std::cout << "Allocated " << MAX_SIZE << " bytes of memory at 0x" << std::hex << (uint32_t)alloc << std::dec << '\n';
+	std::cout << "Allocated " << replaySize << " bytes of memory at 0x" << std::hex << (uint32_t)alloc << std::dec << '\n';
 
 	{
 		uint8_t bytes[] = {
@@ -48,7 +46,7 @@ void GameManager::injectCode()
 		};
 		uint64_t addr = (uint32_t)alloc;
 		memcpy(bytes + 0x2, &addr, sizeof(addr));
-		uint32_t addr2 = MAX_SIZE;
+		uint32_t addr2 = replaySize;
 		memcpy(bytes + 0xD, &addr2, sizeof(addr2));
 
 		memory->writeBytes((uint32_t)alloc, bytes, sizeof(bytes));
@@ -85,7 +83,7 @@ void GameManager::injectCodeNoAlloc()
 		'\x90',													// nop
 		'\x90'													// nop
 	};
-	uint32_t addr = MAX_SIZE;
+	uint32_t addr = replaySize;
 	memcpy(bytes + 0x3, &addr, sizeof(addr));
 
 	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xE92C6, bytes, sizeof(bytes));
@@ -93,7 +91,7 @@ void GameManager::injectCodeNoAlloc()
 
 void GameManager::writeReplay()
 {
-	std::string str = readFile("inputs.txt");
+	std::string str = readFile(replayFile);
 	uint8_t *temp = new uint8_t[str.size() + 1];
 	strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
@@ -106,5 +104,3 @@ void GameManager::writeReplay()
 		memory->writeBytes(replayStringStartPtr, temp, size);
 	}
 }
-
-#undef MAX_SIZE
