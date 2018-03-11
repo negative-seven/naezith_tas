@@ -40,7 +40,7 @@ void GameManager::injectCode()
 
 	{
 		uint8_t bytes[] = {
-			'\x48', '\xBA', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00',	// mov rdx, [alloc]
+			'\x48', '\xBA', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00', '\x00',	// mov rdx, (qword)alloc
 			'\x4C', '\x8D', '\x82', '\x00', '\x00', '\x00', '\x00',							// lea r8, [rdx+MAX_SIZE]
 			'\xC3'																			// ret
 		};
