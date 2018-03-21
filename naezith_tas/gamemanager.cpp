@@ -95,8 +95,8 @@ void GameManager::writeReplay()
 	uint8_t *temp = new uint8_t[str.size() + 1];
 	strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
-	uint32_t replayStringStartPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F38E8);
-	uint32_t replayStringEndPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F38F0);;
+	uint32_t replayStringStartPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F3520);
+	uint32_t replayStringEndPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F3528);;
 
 	unsigned int size = min(replayStringEndPtr - replayStringStartPtr, str.size() + 1);
 	if (size > 0)
