@@ -68,10 +68,10 @@ void GameManager::injectCode()
 			'\x90',									// nop
 			'\x90'									// nop
 		};
-		uint32_t addr = (uint32_t)alloc - (memory->getBaseAddress("naezith.exe") + 0xE92C4);
+		uint32_t addr = (uint32_t)alloc - (memory->getBaseAddress("naezith.exe") + 0xEFEC4);
 		memcpy(bytes + 0x1, &addr, sizeof(addr));
 
-		memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xE92BF, bytes, sizeof(bytes));
+		memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFEBF, bytes, sizeof(bytes));
 	}
 }
 
@@ -86,7 +86,7 @@ void GameManager::injectCodeNoAlloc()
 	uint32_t addr = replaySize;
 	memcpy(bytes + 0x3, &addr, sizeof(addr));
 
-	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xE92C6, bytes, sizeof(bytes));
+	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFEC6, bytes, sizeof(bytes));
 }
 
 void GameManager::writeReplay()
@@ -95,8 +95,8 @@ void GameManager::writeReplay()
 	uint8_t *temp = new uint8_t[str.size() + 1];
 	strncpy_s(reinterpret_cast<char *>(temp), str.size() + 1, str.c_str(), str.size());
 
-	uint32_t replayStringStartPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1EC468);
-	uint32_t replayStringEndPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1EC470);;
+	uint32_t replayStringStartPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F38E8);
+	uint32_t replayStringEndPtr = memory->readUint32(memory->getBaseAddress("naezith.exe") + 0x1F38F0);;
 
 	unsigned int size = min(replayStringEndPtr - replayStringStartPtr, str.size() + 1);
 	if (size > 0)
