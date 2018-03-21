@@ -68,10 +68,10 @@ void GameManager::injectCode()
 			'\x90',									// nop
 			'\x90'									// nop
 		};
-		uint32_t addr = (uint32_t)alloc - (memory->getBaseAddress("naezith.exe") + 0xEFEC4);
+		uint32_t addr = (uint32_t)alloc - (memory->getBaseAddress("naezith.exe") + 0xEFE74);
 		memcpy(bytes + 0x1, &addr, sizeof(addr));
 
-		memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFEBF, bytes, sizeof(bytes));
+		memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFE6F, bytes, sizeof(bytes));
 	}
 }
 
@@ -86,7 +86,7 @@ void GameManager::injectCodeNoAlloc()
 	uint32_t addr = replaySize;
 	memcpy(bytes + 0x3, &addr, sizeof(addr));
 
-	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFEC6, bytes, sizeof(bytes));
+	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFE76, bytes, sizeof(bytes));
 }
 
 void GameManager::writeReplay()
