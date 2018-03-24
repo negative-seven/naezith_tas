@@ -4,10 +4,16 @@
 
 int main(int argc, char *argv[])
 {
+	if (argc < 2)
+	{
+		std::cout << "Usage: naezith_tas <filepath> [optional arguments]";
+		return 0;
+	}
+
 	GameManager gameManager = GameManager();
 
+	const char *replayFile = argv[1];
 	bool alloc = true;
-	const char *replayFile = "inputs.txt";
 	uint32_t replaySize = 0x1000;
 
 	for (int i = 1; i < argc; i++)
@@ -15,14 +21,6 @@ int main(int argc, char *argv[])
 		if (strcmp(argv[i], "-n") == 0 || strcmp(argv[i], "--no-alloc") == 0)
 		{
 			alloc = false;
-		}
-
-		if (strcmp(argv[i], "-f") == 0 || strcmp(argv[i], "--replay-file") == 0)
-		{
-			if (i < argc - 1)
-			{
-				replayFile = argv[i + 1];
-			}
 		}
 
 		if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--replay-size") == 0)
