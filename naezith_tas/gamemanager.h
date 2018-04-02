@@ -23,5 +23,6 @@ public:
 private:
 	void injectCode();
 	void injectCodeNoAlloc();
+	void setPossibleReplaySpeeds();
 	void writeReplay();
 };

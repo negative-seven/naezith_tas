@@ -20,6 +20,8 @@ void GameManager::run()
 		injectCodeNoAlloc();
 	}
 
+	setPossibleReplaySpeeds();
+
 	while (true)
 	{
 		writeReplay();
@@ -87,6 +89,12 @@ void GameManager::injectCodeNoAlloc()
 	memcpy(bytes + 0x3, &addr, sizeof(addr));
 
 	memory->writeBytes(memory->getBaseAddress("naezith.exe") + 0xEFE76, bytes, sizeof(bytes));
+}
+
+void GameManager::setPossibleReplaySpeeds()
+{
+	memory->writeFloat(memory->getBaseAddress("naezith.exe") + 0x1B81D4, 0.0f); // lowest replay speed
+	memory->writeFloat(memory->getBaseAddress("naezith.exe") + 0x1B81E4, 0.0078125f); // second lowest replay speed
 }
 
 void GameManager::writeReplay()
