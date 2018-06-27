@@ -11,6 +11,15 @@ int main(int argc, char *argv[])
 	}
 
 	GameManager gameManager = GameManager();
+	try
+	{
+		gameManager.init();
+	}
+	catch (std::runtime_error)
+	{
+		std::cout << "Error: Could not find game window.";
+		return 0;
+	}
 
 	const char *replayFile = argv[1];
 	bool alloc = true;
@@ -36,6 +45,6 @@ int main(int argc, char *argv[])
 	gameManager.replayFile = replayFile;
 	gameManager.replaySize = replaySize;
 	gameManager.run();
-
+	
 	return 0;
 }

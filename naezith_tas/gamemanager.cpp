@@ -2,7 +2,7 @@
 
 const char *GameManager::windowName = "Remnants of Naezith";
 
-GameManager::GameManager()
+void GameManager::init()
 {
 	alloc = true;
 
@@ -11,20 +11,48 @@ GameManager::GameManager()
 
 void GameManager::run()
 {
-	if (alloc)
+	try
 	{
-		injectCode();
+		if (alloc)
+		{
+			injectCode();
+		}
+		else
+		{
+			injectCodeNoAlloc();
+		}
 	}
-	else
+	catch (std::runtime_error e)
 	{
-		injectCodeNoAlloc();
+		std::cout << "Error injecting code: " << e.what() << '\n';
+		std::cout << "WinAPI error code: 0x" << std::hex << GetLastError() << std::dec << '\n';
+		return;
 	}
 
-	setPossibleReplaySpeeds();
+	try
+	{
+		setPossibleReplaySpeeds();
+	}
+	catch (std::runtime_error e)
+	{
+		std::cout << "Error setting possible replay speeds: " << e.what() << '\n';
+		std::cout << "WinAPI error code: 0x" << std::hex << GetLastError() << std::dec << '\n';
+		return;
+	}
 
 	while (true)
 	{
-		writeReplay();
+		try
+		{
+			writeReplay();
+		}
+		catch (std::runtime_error e)
+		{
+			std::cout << "Error writing replay: " << e.what() << '\n';
+			std::cout << "WinAPI error code: 0x" << std::hex << GetLastError() << std::dec << '\n';
+			return;
+		}
+
 		Sleep(500);
 	}
 }

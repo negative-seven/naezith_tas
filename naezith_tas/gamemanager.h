@@ -18,7 +18,7 @@ private:
 	WindowsMemory::MemoryHandler *memory;
 
 public:
-	GameManager();
+	void init();
 	void run();
 private:
 	void injectCode();
