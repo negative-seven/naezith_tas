@@ -1,11 +1,9 @@
-.vs/
-Debug/
-Release/
+# Visual Studio files
 
-*.db
-*.obj
-*.opendb
-*.tlog
+.vs/
 *.vcxproj.user
 
-naezith_tas/inputs.txt
+# Binary and object files
+
+bin/
+obj/

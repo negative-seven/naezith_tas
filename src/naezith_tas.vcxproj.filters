@@ -5,20 +5,19 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{1b508917-2e7a-428e-b3f7-ee2c183c49da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\WindowsMemory">
+      <UniqueIdentifier>{318486a0-7ad8-46e8-9a98-686d21a164a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsMemory\src\winmemory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
@@ -27,16 +26,19 @@
     <ClCompile Include="gamemanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\lib\WindowsMemory\src\winmemory.cpp">
+      <Filter>Libraries\WindowsMemory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="WindowsMemory\src\winmemory.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="gamemanager.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="gamemanager.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\lib\WindowsMemory\src\winmemory.h">
+      <Filter>Libraries\WindowsMemory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
