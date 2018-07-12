@@ -18,7 +18,7 @@ private:
 	WindowsMemory::MemoryHandler *memory;
 
 public:
-	void init();
+	GameManager(bool alloc, const char *replayFile, uint32_t replaySize);
 	void run();
 private:
 	void injectCode();

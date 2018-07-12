@@ -29,22 +29,19 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-
-	GameManager gameManager = GameManager();
+	
+	GameManager *gameManager;
 	try
 	{
-		gameManager.init();
+		gameManager = new GameManager(alloc, replayFile, replaySize);
 	}
 	catch (std::runtime_error)
 	{
 		std::cout << "Error: Could not find game window.";
 		return 0;
 	}
-
-	gameManager.alloc = alloc;
-	gameManager.replayFile = replayFile;
-	gameManager.replaySize = replaySize;
-	gameManager.run();
+	
+	gameManager->run();
 	
 	return 0;
 }

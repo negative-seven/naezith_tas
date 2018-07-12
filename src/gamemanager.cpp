@@ -2,11 +2,13 @@
 
 const char *GameManager::windowName = "Remnants of Naezith";
 
-void GameManager::init()
+GameManager::GameManager(bool alloc, const char *replayFile, uint32_t replaySize)
 {
-	alloc = true;
+	this->alloc = alloc;
+	this->replayFile = replayFile;
+	this->replaySize = replaySize;
 
-	memory = new WindowsMemory::MemoryHandler(NULL, windowName);
+	this->memory = new WindowsMemory::MemoryHandler(NULL, windowName);
 }
 
 void GameManager::run()
