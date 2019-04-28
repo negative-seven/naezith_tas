@@ -24,6 +24,6 @@ Replay files consist of lines corresponding to actions. A line takes on the form
    - <space>
    - <'P' or 'R' character for pressed/released>
    - <space>
-   - <input ID (from 0 to 4)>
+   - <input ID (from 0 to 4)> (Left 0, Right 1, Jump 2, Boost 3, Hook 4)
  - <line feed>
 ```
